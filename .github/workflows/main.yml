@@ -101,7 +101,7 @@ jobs:
     - name: Upload firmware
       uses: actions/upload-artifact@v4
       with:
-        name: firmware_${{ matrix.target-hardware }}.zip
+        name: firmware_${{ matrix.target-hardware }}
         path: |
           build/wireless_esp_dap_full.bin
           build/wireless_esp_dap_app.bin
