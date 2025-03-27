@@ -939,7 +939,18 @@ It is recommended to provide the following LEDs for status indication:
  */
 __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 {
-  (void)(bit);
+#if defined CONFIG_IDF_TARGET_ESP32C3
+	if ((bit & 1U) == 1)
+    {
+	GPIO.enable_w1tc.enable_w1tc |= (0x01 << PIN_LED_CONNECTED);
+	}
+	else
+	{
+	GPIO.enable_w1ts.enable_w1ts |= (0x01 << PIN_LED_CONNECTED);	
+	}
+#else
+	;
+#endif
 }
 
 /**
@@ -951,17 +962,18 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
  */
 __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 {
-  (void)(bit);
-  // if (bit)
-  // {
-  //   //set bit
-  //   GPIO.out_w1ts |= (0x1 << PIN_LED_RUNNING);
-  // }
-  // else
-  // {
-  //   //reset bit
-  //   GPIO.out_w1tc |= (0x1 << PIN_LED_RUNNING);
-  // }
+#if defined CONFIG_IDF_TARGET_ESP32C3
+	if ((bit & 1U) == 1)
+    {
+	GPIO.enable_w1tc.enable_w1tc |= (0x01 << PIN_LED_RUNNING);
+	}
+	else
+	{
+	GPIO.enable_w1ts.enable_w1ts |= (0x01 << PIN_LED_RUNNING);	
+	}
+#else
+	;
+#endif
 }
 
 ///@}
