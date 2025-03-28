@@ -376,8 +376,8 @@ __STATIC_INLINE uint8_t DAP_GetProductFirmwareVersionString (char *str) {
   #define PIN_nTRST 4       // optional
   #define PIN_nRESET 5
 
-  #define PIN_LED_CONNECTED 0 // won't be used
-  #define PIN_LED_RUNNING 1 // won't be used
+  #define PIN_LED_CONNECTED 2 // won't be used
+  #define PIN_LED_RUNNING 3 // won't be used
 #elif defined CONFIG_IDF_TARGET_ESP32S3
   #define PIN_SWDIO _      // SPI MISO
   #define PIN_SWDIO_MOSI 11 // SPI MOSI
@@ -978,6 +978,19 @@ __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 #endif
 }
 
+#if defined CONFIG_IDF_TARGET_ESP32C3
+__STATIC_INLINE void LED_SETUP(void)
+{
+	GPIO_FUNCTION_SET(PIN_LED_CONNECTED);
+	GPIO_FUNCTION_SET(PIN_LED_RUNNING);
+	GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_CONNECTED);
+  	GPIO.pin[PIN_LED_CONNECTED].pad_driver = 0;
+  	REG_CLR_BIT(GPIO_PIN_MUX_REG[PIN_LED_CONNECTED], FUN_PD);
+	GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_CONNECTED);
+  	GPIO.pin[PIN_LED_CONNECTED].pad_driver = 0;
+  	REG_CLR_BIT(GPIO_PIN_MUX_REG[PIN_LED_CONNECTED], FUN_PD);
+}
+#endif
 ///@}
 
 //**************************************************************************************************
@@ -1039,8 +1052,7 @@ __STATIC_INLINE void DAP_SETUP(void)
   // 5mA for esp32c3/esp32s3
   gpio_ll_set_drive_capability(&GPIO, PIN_SWCLK, GPIO_DRIVE_CAP_0);
   gpio_ll_set_drive_capability(&GPIO, PIN_SWDIO_MOSI, GPIO_DRIVE_CAP_0);
-  GPIO_FUNCTION_SET(PIN_LED_CONNECTED);
-  GPIO_FUNCTION_SET(PIN_LED_RUNNING);
+  LED_SETUP();
 #endif
 
   PORT_OFF();
