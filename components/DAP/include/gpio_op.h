@@ -29,7 +29,7 @@ __STATIC_INLINE __UNUSED void GPIO_FUNCTION_SET(int io_num)
 
   // It should be noted that GPIO0, 2, 4, and 5 need to set the func register to 0,
   // and the other GPIO needs to be set to 3 so that IO can be GPIO function.
-  if ((0x1 << io_num) & (GPIO_Pin_0 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5)) {
+  if ((0x1 << io_num) & (GPIO_Pin_0 | GPIO_Pin_2 | GPIO_Pin_4 | GPIO_Pin_5)) {
       pin_reg.rtc_pin.func_low_bit = 0;
       pin_reg.rtc_pin.func_high_bit = 0;
   } else {
