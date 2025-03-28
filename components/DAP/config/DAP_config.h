@@ -981,12 +981,14 @@ __STATIC_INLINE void LED_SETUP(void)
 {
 	GPIO_FUNCTION_SET(PIN_LED_CONNECTED);
 	GPIO_FUNCTION_SET(PIN_LED_RUNNING);
-	gpio_set_direction(PIN_LED_CONNECTED, GPIO_MODE_OUTPUT);
-	GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_CONNECTED);
+	//gpio_set_direction(PIN_LED_CONNECTED, GPIO_MODE_OUTPUT);
+	GPIO.enable_w1ts.enable_w1ts |= (0x01 << PIN_LED_CONNECTED);
+	//GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_CONNECTED);
   	GPIO.pin[PIN_LED_CONNECTED].pad_driver = 0;
   	REG_CLR_BIT(GPIO_PIN_MUX_REG[PIN_LED_CONNECTED], FUN_PD);
-	gpio_set_direction(PIN_LED_RUNNING, GPIO_MODE_OUTPUT);
-	GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_RUNNING);
+	//gpio_set_direction(PIN_LED_RUNNING, GPIO_MODE_OUTPUT);
+	GPIO.enable_w1ts.enable_w1ts |= (0x01 << PIN_LED_RUNNING);
+	//GPIO.enable_w1ts.enable_w1ts = (0x1 << PIN_LED_RUNNING);
   	GPIO.pin[PIN_LED_RUNNING].pad_driver = 0;
   	REG_CLR_BIT(GPIO_PIN_MUX_REG[PIN_LED_RUNNING], FUN_PD);
 }
