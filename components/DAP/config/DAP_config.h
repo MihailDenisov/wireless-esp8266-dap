@@ -940,7 +940,8 @@ It is recommended to provide the following LEDs for status indication:
 __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 {
 #if defined CONFIG_IDF_TARGET_ESP32C3
-	if ((bit & 1U) == 1)
+	(void)(bit);
+        if (bit)
     {
 	GPIO_SET_LEVEL_HIGH(PIN_LED_CONNECTED);
 	}
@@ -963,7 +964,8 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 {
 #if defined CONFIG_IDF_TARGET_ESP32C3
-	if ((bit & 1U) == 1)
+	(void)(bit);
+        if (bit)
     {
 	GPIO_SET_LEVEL_HIGH(PIN_LED_RUNNING);
 	}
